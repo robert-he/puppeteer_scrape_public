@@ -7,9 +7,12 @@ async function run() {
     const page = await browser.newPage();
     await page.goto("https://mioym.com/the-team/");
 
-    await page.screenshot( {path: 'full-page-screenshot.png', fullPage: true}) //takes screenshot of contents of selected page 
+    const home_page = await browser.newPage();
+    await home_page.goto("https://mioym.com/news/");
 
-    await page.pdf({ path: 'full-page-pdf.pdf', format: 'A4'}); //takes pdf of contents of selected page 
+    await home_page.screenshot( {path: 'full-page-screenshot.png', fullPage: true}) //takes screenshot of contents of selected page 
+
+    await home_page.pdf({ path: 'full-page-pdf.pdf', format: 'A4'}); //takes pdf of contents of selected page 
 
     //const html = await page.content();  //grabs all the html of a page 
     //const title = await page.evaluate(() => document.title); // DOM manipulation, trying to return document.title
@@ -32,7 +35,7 @@ async function run() {
     console.log(courses);
 
     //save data to JSON file
-    fs.writeFile('courses.json', JSON.stringify(courses), (err) => {
+    fs.writeFile('courses.json', JSON.stringify(courses, null, '\t'), (err) => {
         if(err) throw err;
         console.log('Filed saved');
     })
